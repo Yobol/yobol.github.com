@@ -3,18 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: 'Yobol 个人博客'
+subtitle: '人生随想录'
+description: '记录或者总结工作、学习以及生活中一些有启发意义的事'
+keywords: 'AI,AI Platform,AI Cluster,Linux,Docker,Kubernetes,GPU,CNCF,Go,Python,React,MinIO,MySQL,PostgreSQL,ClickHouse,Redis'
+author: 'Yobol'
+language: 'zh-CN'
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
-permalink: :year/:month/:day/:title/
+url: 'https://yobol.github.io'
+root: ''
+permalink: ':year/:month/:day/:title/'
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -28,7 +29,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: '' # 匹配到的文件将直接拷贝到 public 目录中
 
 # Writing
 new_post_name: :title.md # File name of new posts
