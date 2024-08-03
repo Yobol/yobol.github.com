@@ -19,7 +19,7 @@ tags:
 
 `DirectPV` 是一种用于直连存储（`DAS`）的 [`Kubernetes CSI`](https://github.com/container-storage-interface/spec/blob/master/spec.md) 分布式实现，可以发现、格式化、挂载、调度和监控 `Kubernetes` 集群各服务器上的存储设备驱动（`Drive`），为 `Kubernetes` 工作负载（`Pod`）提供本地卷（`Volume`），即使用 `Drive` 创建 `Persistent Volume (PV)`，以供 `Kubernetes` 满足 `PVC (Persistent Volume Claim)`。和基于 `SAN (Storage Area Network)` 或 `NAS (Network Attached Storage)` 的网络 `PV` 不同，`DirectPV` 直接使用本地 `PV`，减少了数据在网络中的传输和复制操作，可以提高数据传输效率，减少数据延迟和网络拥塞，从而提升系统整体性能。
 
-![1718538010798](image/minio-directpv-advanced/1718538010798.png)
+![1718538010798](../images/minio-directpv-advanced/1718538010798.png)
 
 ## 工作原理
 
@@ -35,7 +35,7 @@ tags:
 
 ### Controller
 
-![1718544673443](image/minio-directpv-advanced/1718544673443.png)
+![1718544673443](../images/minio-directpv-advanced/1718544673443.png)
 
 `Contoller` 在 `Kubernetes` 集群中会以名为 `contoller` 的 `Deployment` 形式存在，默认情况下有 `3` 个实例。每个 `Controller` 实例包含如下容器：
 
@@ -51,7 +51,7 @@ tags:
 
 ### Node Server
 
-![1718544843729](image/minio-directpv-advanced/1718544843729.png)
+![1718544843729](../images/minio-directpv-advanced/1718544843729.png)
 
 `Node Server` 在 `Kubernetes` 集群中会以名为 `name-server` 的 `DaemonSet` 形式存在，默认情况下会在集群中的每个节点上都运行一个实例。当然也可以用各种方法避免在某些节点上运行此实例，具体方法可见 [在 Kubernetes 中使用 DirectPV 管理 MinIO 存储 - 入门](./minio-directpv-get-started.md)。每个 `Node Server` 实例包含如下容器：
 
