@@ -44,7 +44,7 @@ awk -F: '{print $1}' /etc/passwd
 
 #### `NF`
 
-`NF`：表示当前行共有多少字段，如：
+`NF`：表示当前行共有多少字段，即 `Number of Fields`，如：
 
 ```shell
 awk -F: '{print NF}' /etc/passwd
@@ -66,7 +66,7 @@ awk -F: '{print $(NF-1)}' /etc/passwd
 
 #### `NR`
 
-`NR`：表示当前行号，如：
+`NR`：表示当前行在输入行中的下标，即 `Number of Records`，从 `1` 开始，如：
 
 ```shell
 awk -F: '{print NR}' /etc/passwd
@@ -82,7 +82,7 @@ awk -F: '{print NR ") " $1}' /etc/passwd
 
 #### `FS`
 
-`FS`：表示字段分隔符，默认是空格，如：
+`FS`：表示字段分隔符，即 `Field Separator`，默认是空格，如：
 
 ```shell
 awk -F: '{print $1 FS $2}' /etc/passwd
@@ -92,7 +92,7 @@ awk -F: '{print $1 FS $2}' /etc/passwd
 
 #### `RS`
 
-`RS`：表示行分隔符，默认是换行符，如：
+`RS`：表示行分隔符，即 `Record Separator`，默认是换行符，如：
 
 ```shell
 awk -F: '{print $1 RS $2}' /etc/passwd
@@ -102,7 +102,146 @@ awk -F: '{print $1 RS $2}' /etc/passwd
 
 ### 函数
 
+> https://www.gnu.org/software/gawk/manual/html_node/Built_002din.html#Built_002din
+
+`awk` 提供了许多内置函数，方便对原始数据进行处理。
+
+#### `toupper()`
+
+> https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html#index-toupper_0028_0029-function
+
+`toupper()`：表示将字符串转换为大写，如：
+
+```shell
+echo 'abc' | awk '{print toupper($0)}'
+```
+
+#### `tolower()`
+
+> https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html#index-tolower_0028_0029-function
+
+`tolower()`：表示将字符串转换为小写，如：
+
+```shell
+echo 'ABC' | awk '{print tolower($0)}'
+```
+
+#### `length()`
+
+> https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html#index-length_0028_0029-function
+
+`length()`：表示获取字符串长度，如：
+
+```shell
+echo 'abc' | awk '{print length($0)}'
+```
+
+#### `substr()`
+
+> https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html#index-substr_0028_0029-function
+
+`substr()`：表示获取子字符串，首字母下标从 `1` 开始，如：
+
+```shell
+echo 'abc' | awk '{print substr($0, 0, 2)}'
+ab
+
+echo 'abc' | awk '{print substr($0, 1, 2)}'
+ab
+
+echo 'abc' | awk '{print substr($0, 2, 2)}'
+bc
+```
+
+#### `rand()`
+
+> https://www.gnu.org/software/gawk/manual/html_node/Numeric-Functions.html#index-rand_0028_0029-function
+
+`rand()`：表示生成 `[0, 1)` 之间的随机数，如：
+
+```shell
+echo 'abc' | awk '{print rand()}'
+```
+
 ### 条件
+
+`awk` 提供了许多条件语句，只输出满足条件的行。
+
+```shell
+awk '[condition] <program>' file
+```
+
+#### 正则表达式
+
+`awk` 支持正则表达式，如：
+
+```shell
+awk '/pattern/ <program>' file
+```
+
+我们可以选择输出 `/etc/passwd` 文件中所有包含 `/bin/bash` 的行：
+
+```shell
+awk '/\/bin\/bash/ {print $0}' /etc/passwd
+```
+
+#### 比较运算符
+
+`awk` 支持比较运算符，如：
+
+```shell
+awk 'NR % 2 == 0 {print $0}' /etc/passwd
+```
+
+表示从 `/etc/passwd` 文件中输出偶数行。
+
+```shell
+awk 'NR > 10 {print $0}' /etc/passwd
+```
+
+表示从 `/etc/passwd` 文件中输出第 `10` 行之后的所有行。
+
+#### 逻辑运算符
+
+`awk` 支持逻辑运算符，如：
+
+```shell
+awk -F: '$1 == "root" || $1 == "yobol" {print $1}' /etc/passwd
+```
+
+表示从 `/etc/passwd` 文件中输出第一列是 `root` 或 `yobol` 的行。
+
+### 语句
+
+#### `if` 语句
+
+`awk` 支持 `if` 语句，如：
+
+```shell
+awk -F: '{if ($1 > "o") {print $1} else {print "--"}}' /etc/passwd
+```
+
+表示从 `/etc/passwd` 文件中输出第一列大于 `o` 的行，否则输出 `--`。
+
+#### `for` 语句
+
+`awk` 支持 `for` 语句，如：
+
+```shell
+awk -F：'{for (i = 1; i <= NF; i++) {print $i}}' /etc/passwd
+```
+
+表示从 `/etc/passwd` 文件中输出每一行的每一个字段。
+
+#### `while` 语句
+
+`awk` 支持 `while` 语句，如：
+
+```shell
+awk -F: '{i = 1; while (i <= NF) {print $i; i++}}' /etc/passwd
+```
+
+表示从 `/etc/passwd` 文件中输出每一行的每一个字段。
 
 ## 进阶使用
 
